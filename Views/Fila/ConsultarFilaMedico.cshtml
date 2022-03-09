@@ -1,0 +1,108 @@
+﻿@model Ks.MonitorCPI.Models.ViewModelFila
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="~/Scripts/jquery.table2excel.js"></script>
+
+<link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
+@Styles.Render("~/Content/DataTables")
+@Scripts.Render("~/plugins/mask")
+
+
+
+<div class="modal-content">
+    <div class="modal-body">
+
+        @if (Model != null)
+        {
+            if (!string.IsNullOrEmpty(Model.nvc1))
+            {
+                if (Model.FilaEntidade.Count > 0)
+                {
+                    <button type="button" class="btn btn-circle btn-lg btn-block " onclick="history.back();"><<</button>
+                    @*<a class="btn btn-default btn-lg btn-block" style="padding:0 0 10px 0" href="@Url.Action("ExportarXml", "Fila")">Download Xml</a>*@
+                }
+
+                <table id="tLogTableId" class="display nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="all">Tabela Id</th>
+                            <th class="all">Pedido Id</th>
+                            <th class="all">Data Inclusão</th>
+                            <th class="all">Erro/Sucesso</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model.FilaEntidade)
+                        {
+                            <tr>
+                                <td></td>
+                                <td> @Html.DisplayFor(model => item.tabelaId)</td>
+                                <td> @Html.DisplayFor(model => item.nvc1)</td>
+                                <td> @Html.DisplayFor(model => item.nvc2)</td>
+                                <td> @Html.DisplayFor(model => item.nvc3)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        }
+
+
+    </div>
+</div>
+
+@Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+@Styles.Render("~/plugins/dataPickerStyles")
+@Styles.Render("~/plugins/slickStyles")
+@Styles.Render("~/plugins/slickThemeStyles")
+
+@Scripts.Render("~/plugins/iCheck")
+@Scripts.Render("~/plugins/validate")
+@Scripts.Render("~/plugins/dataPicker")
+@Scripts.Render("~/plugins/slick")
+
+<script>
+    function BuscarPayLoad(data) {
+        return $.ajax({
+            type: "POST",
+            url: 'TransactionPayLoad/',
+            data: { data },
+            success: function (retorno) {
+                window.location = '@Url.Action("Download", "Home")';
+            }
+        });
+    }
+
+    var wholesaler = $('#tLogTableId').DataTable({
+        responsive: {
+            details: {
+                type: 'column'
+            }
+        },
+        columnDefs: [{
+            className: 'control',
+            orderable: false,
+            targets: 0
+        }],
+        order: [1, 'asc']
+    });
+
+    function expandCollapseAll() {
+        wholesaler.rows('.parent').nodes().to$().find('td:first-child').trigger('click').length ||
+            wholesaler.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click')
+
+    }
+
+</script>
+@*<script src="~/Scripts/ExportarExcel/jquery-2.0.1.min.js"></script>*@
+<script src="~/Scripts/ExportarExcel/jquery.base64.js"></script>
+<script src="~/Scripts/ExportarExcel/jquery.btechco.excelexport.js"></script>

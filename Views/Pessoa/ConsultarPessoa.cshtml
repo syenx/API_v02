@@ -1,0 +1,146 @@
+﻿@model Ks.MonitorCPI.Models.ViewModelPessoa
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="~/Scripts/jquery.table2excel.js"></script>
+
+<link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
+@Styles.Render("~/Content/DataTables")
+@Scripts.Render("~/plugins/mask")
+
+
+
+<div class="modal-content">
+    <div class="modal-body">
+
+        @if (Model != null)
+        {
+
+            if (Model.ROOT.Select_response.Row.Count > 0)
+            {
+
+                <a class="btn btn-default btn-lg btn-block" style="padding:0 0 10px 0" href="@Url.Action("ExportarXml", "Pessoa")">Download Xml</a>
+            }
+
+            int contador = 0;
+
+         
+                <table id="tLogTableId" class="display nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="all">CodigoSAP</th>
+                            <th class="all">CodigoTOTVS</th>
+                            <th class="all">Empresa</th>
+                            <th class="all">RazaoSocial</th>
+                            <th class="all">Grupo</th>
+                            <th class="none"></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ROOT.Select_response.Row)
+                        {
+                            <tr>
+                                <td></td>
+                                <td> @Html.DisplayFor(model => item.CodigoSAP)</td>
+                                <td> @Html.DisplayFor(model => item.CodigoTOTVS__c)</td>
+                                <td> @Html.DisplayFor(model => item.Empresa)</td>
+                                <td> @Html.DisplayFor(model => item.RazaoSocial)</td>
+                                <td> @Html.DisplayFor(model => item.Grupo)</td>
+                                <td>
+                                    <table>
+                                        <tbody>
+                                        <thead>
+                                            <tr>
+
+                                                <th class="all">GrupoContas</th>
+                                                <th class="all">GRPCM</th>
+                                                <th class="all">CNPJ</th>
+                                                <th class="all">AreaCredito</th>
+                                                <th class="all">LimiteCredito</th>
+                                                <th class="all">ContaCredito</th>
+                                                <th class="all">OrganizacaoVendas</th>
+                                                <th class="all">CanalDistribuicao</th>
+                                                <th class="all">CDCentroFornecedor</th>
+                                                <th class="all">MarcadoEliminacao</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td> @Html.DisplayFor(model => item.GrupoContas)</td>
+                                                <td> @Html.DisplayFor(model => item.GRPCM)</td>
+                                                <td> @Html.DisplayFor(model => item.CNPJ)</td>
+                                                <td> @Html.DisplayFor(model => item.AreaCredito)</td>
+                                                <td> @Html.DisplayFor(model => item.LimiteCredito)</td>
+                                                <td> @Html.DisplayFor(model => item.ContaCredito)</td>
+                                                <td> @Html.DisplayFor(model => item.OrganizacaoVendas)</td>
+                                                <td> @Html.DisplayFor(model => item.CanalDistribuicao)</td>
+                                                <td> @Html.DisplayFor(model => item.CDCentroFornecedor)</td>
+                                                <td> @Html.DisplayFor(model => item.MarcadoEliminacao)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            
+        }
+    </div>
+</div>
+
+@Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+@Styles.Render("~/plugins/dataPickerStyles")
+@Styles.Render("~/plugins/slickStyles")
+@Styles.Render("~/plugins/slickThemeStyles")
+
+@Scripts.Render("~/plugins/iCheck")
+@Scripts.Render("~/plugins/validate")
+@Scripts.Render("~/plugins/dataPicker")
+@Scripts.Render("~/plugins/slick")
+
+<script>
+    function BuscarPayLoad(data) {
+        return $.ajax({
+            type: "POST",
+            url: 'TransactionPayLoad/',
+            data: { data },
+            success: function (retorno) {
+                window.location = '@Url.Action("Download", "Home")';
+            }
+        });
+    }
+
+    var wholesaler = $('#tLogTableId').DataTable({
+        responsive: {
+            details: {
+                type: 'column'
+            }
+        },
+        columnDefs: [{
+            className: 'control',
+            orderable: false,
+            targets: 0
+        }],
+        order: [1, 'asc']
+    });
+
+    function expandCollapseAll() {
+        wholesaler.rows('.parent').nodes().to$().find('td:first-child').trigger('click').length ||
+            wholesaler.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click')
+
+    }
+
+</script>
+@*<script src="~/Scripts/ExportarExcel/jquery-2.0.1.min.js"></script>*@
+<script src="~/Scripts/ExportarExcel/jquery.base64.js"></script>
+<script src="~/Scripts/ExportarExcel/jquery.btechco.excelexport.js"></script>

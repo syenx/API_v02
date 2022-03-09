@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Monitor CPI</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/font-awesome/css")
+</head>
+<body>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @Scripts.Render("~/plugins/pace")
+    @Scripts.Render("~/plugins/slimScroll")
+
+    @RenderSection("scripts", required: false)
+ 
+  
+
+    <style>
+        #loginTela {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 999;
+        }
+    </style>
+
+
+    <div id="BloCkTela">
+
+    </div>
+    <div id="wrapper" style="height:inherit; width:auto">
+
+        @{
+
+            bool producao = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["MonitorCPI_Controle"].ToString());
+
+        }
+        <!-- Navigation -->
+        @Html.Partial("_Navigation")
+
+        <!-- Page wraper -->
+        <div id="page-wrapper" class=navy-bg">
+
+            <!-- Top Navbar -->
+            @Html.Partial("_TopNavbar")
+
+            <div style="background-color:greenyellow">
+                @if (!producao)
+                {
+                    <label>Homolog</label>
+                }
+
+
+
+            </div>
+            <!-- Main view  -->
+            @RenderBody()
+
+            <!-- Footer -->
+            @*  @Html.Partial("_Footer")*@
+
+        </div>
+        <!-- End page wrapper-->
+
+    </div>
+    <!-- End wrapper-->
+    <style>
+
+
+
+      
+
+        .radial-menu {
+            top: 250px;
+            left: 60px;
+            position: fixed;
+            display: block;
+            width: 100px;
+            height: 100px;
+            background-color: transparent;
+            border-radius: 50%;
+            z-index: 20;
+            -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+            box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+        }
+
+        .menu-item1 {
+            tootip:"";
+            width: 60%;
+            height: 60%;
+            background-color: dimGray;
+            background: url("../../Content/LogsTRansaction.jpg") center center no-repeat;
+            background-size: 100%;
+            border-radius: 50%;
+            position: absolute;
+            color: white;
+            text-align: center;
+            line-height: 70px;
+            top: 25%;
+            left: 25%;
+            z-index: 19;
+            transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550);
+            position: absolute;
+        }
+
+        .menu-item2 {
+            width: 60%;
+            height: 60%;
+            background-color: dimGray;
+            background: url("../../Content/clientsIcon.jpg") center center no-repeat;
+            background-size: 100%;
+            border-radius: 50%;
+            position: absolute;
+            color: white;
+            text-align: center;
+            line-height: 70px;
+            top: 25%;
+            left: 25%;
+            z-index: 19;
+            transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550) .2s;
+        }
+
+        .menu-item3 {
+            width: 60%;
+            height: 60%;
+            background-color: dimGray;
+            background: url("../../Content/Produtos.jpg") center center no-repeat;
+            background-size: 100%;
+            border-radius: 50%;
+            position: absolute;
+            color: white;
+            text-align: center;
+            line-height: 70px;
+            top: 25%;
+            left: 25%;
+            transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550) .4s;
+        }
+
+        .menu-item4 {
+            width: 60%;
+            height: 60%;
+            background-color: aliceblue;
+            background: url("../../Content/Fila.jpg") center center no-repeat;
+            background-size: 100%;
+            border-radius: 50%;
+            position: absolute;
+            color: white;
+            text-align: center;
+            line-height: 70px;
+            top: 25%;
+            left: 25%;
+            transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550) .6s;
+        }
+
+        .mask {
+            top: 250px;
+            left: 60px;
+            width: 100px;
+            height: 100px;
+            background: url("../../Content/homepage.jpg") center center no-repeat;
+            background-size: 100%;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 21;
+            color: white;
+            text-align: center;
+            line-height: 120px;
+            cursor: pointer;
+            position: fixed;
+        }
+    </style>
+  
+
+</body>
+</html>

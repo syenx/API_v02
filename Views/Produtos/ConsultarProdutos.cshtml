@@ -1,0 +1,246 @@
+﻿@model Ks.MonitorCPI.Models.ViewModelProdutos
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="~/Scripts/jquery.table2excel.js"></script>
+
+<link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
+@Styles.Render("~/Content/DataTables")
+@Scripts.Render("~/plugins/mask")
+
+
+
+<div class="modal-content">
+    <div class="modal-body">
+
+        @if (Model != null && Model.ROOT != null)
+        {
+
+            if (Model.ROOT.Select_response.Row.Count > 0)
+            {
+
+                <a class="btn btn-default btn-lg btn-block" style="padding:0 0 10px 0" href="@Url.Action("ExportarXml", "Produtos")">Download Xml</a>
+            }
+
+            int contador = 0;
+            <table id="tLogTableId" class="display nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="all">CodigoSAP</th>
+                        <th class="all">CodigoTOTVS</th>
+                        <th class="all">Name</th>
+                        <th class="all">EAN</th>
+                        <th class="none"></th>
+                        <th class="none"></th>
+                        <th class="none"></th>
+                        <th class="none"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model.ROOT.Select_response.Row)
+                    {
+                        <tr>
+                            <td></td>
+                            <td> @Html.DisplayFor(model => item.CodigoSAP__c)</td>
+                            <td> @Html.DisplayFor(model => item.CodigoTOTVS__c)</td>
+                            <td> @Html.DisplayFor(model => item.Name)</td>
+                            <td> @Html.DisplayFor(model => item.EAN__c)</td>
+
+                            <td>
+                                <table>
+                                    <tbody>
+                                    <thead>
+                                        <tr>
+                                            <th class="all">Bloq. Regulatorio</th>
+                                            <th class="all">Isento ICMS</th>
+                                            <th class="all">Refrigerado</th>
+                                            <th class="all">Controlado</th>
+                                            <th class="all">Convenios</th>
+                                            <th class="all">Obsoleto</th>
+                                            <th class="all">Peso Bruto</th>
+                                            <th class="all">Peso Liquido</th>
+                                            <th class="all">Tipo Produto</th>
+                                            <th class="all">Classific. Fiscal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td> @Html.DisplayFor(model => item.BloqueioRegulatorio__c)</td>
+                                            <td> @Html.DisplayFor(model => item.IsentoICMS__c)</td>
+                                            <td> @Html.DisplayFor(model => item.Refrigerado__c)</td>
+                                            <td> @Html.DisplayFor(model => item.Controlado_c)</td>
+                                            <td> @Html.DisplayFor(model => item.Convenios__c)</td>
+                                            <td> @Html.DisplayFor(model => item.Obsoleto__c)</td>
+                                            <td> @Html.DisplayFor(model => item.PesoBruto__c)</td>
+                                            <td> @Html.DisplayFor(model => item.PesoLiquido__c)</td>
+                                            <td> @Html.DisplayFor(model => item.TipoProduto__c)</td>
+                                            <td> @Html.DisplayFor(model => item.ClassificacaoFiscal__c)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+
+                            <td>
+                                <table>
+                                    <tbody>
+                                    <thead>
+                                        <tr>
+
+                                        
+                                          
+                                            <th class="all">Categ. Anvisa</th>
+                                            <th class="all">Unidade Venda</th>
+                                            <th class="all">RegistroMS</th>
+                                            <th class="all">Lista PIS-COFINS</th>
+                                            <th class="all">Codigo Fab.</th>
+                                            <th class="all">Nome Fab.</th>
+                                            <th class="all">UF Fab.</th>
+                                            <th class="all">Fab. Data Comp.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+
+                                         
+                                         
+                                            <td> @Html.DisplayFor(model => item.CategoriaAnvisa__c)</td>
+                                            <td> @Html.DisplayFor(model => item.UnidadeVenda__c)</td>
+                                            <td> @Html.DisplayFor(model => item.RegistroMS__c)</td>
+                                            <td> @Html.DisplayFor(model => item.ListaPISCOFINS__c)</td>
+                                            <td> @Html.DisplayFor(model => item.CodigoFabricante__c)</td>
+                                            <td> @Html.DisplayFor(model => item.NomeFabricante__c)</td>
+                                            <td> @Html.DisplayFor(model => item.UFFabricante__c)</td>
+                                            <td> @Html.DisplayFor(model => item.FabricanteDataCompra)</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+
+
+                            <td>
+                                <table>
+                                    <tbody>
+                                    <thead>
+                                        <tr>
+                                            <th class="all">Un. Venda</th>
+                                            <th class="all">Registro MS</th>
+                                            <th class="all">Transp. Refrigerado</th>
+                                            <th class="all">Padrao Embalagem</th>
+                                            <th class="all">Marca</th>
+                                            <th class="all">Substancia Ativa</th>
+                                            <th class="all">Lancamento</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td> @Html.DisplayFor(model => item.UnidadeVenda__c)</td>
+                                            <td> @Html.DisplayFor(model => item.RegistroMS__c)</td>
+                                            <td> @Html.DisplayFor(model => item.TransporteRefrigerado__c)</td>
+                                            <td> @Html.DisplayFor(model => item.PadraoEmbalagem__c)</td>
+                                            <td> @Html.DisplayFor(model => item.Marca)</td>
+                                            <td> @Html.DisplayFor(model => item.SubstanciaAtiva__c)</td>
+                                            <td> @Html.DisplayFor(model => item.Lancamento__c)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+
+                            <td>
+                                <table>
+                                    <tbody>
+                                    <thead>
+                                        <tr>
+
+                                            <th class="all">EANHistorico</th>
+                                    
+                                            <th class="all">CD Codigo</th>
+                                            <th class="all">Codigo Origem</th>
+                                            <th class="all">Data Implantacao</th>
+                                            <th class="all">Controlado</th>
+                                            <th class="all">Cod Grupo Mercadoria</th>
+                                            <th class="all">Condicao Estocagem</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+
+                                            <td> @Html.DisplayFor(model => item.EANHistorico__c)</td>
+                                            <td> @Html.DisplayFor(model => item.RelevanteOnco)</td>
+                                            <td> @Html.DisplayFor(model => item.FabricanteDataCompra)</td>
+                                            <td> @Html.DisplayFor(model => item.CDCodigo)</td>
+                                            <td> @Html.DisplayFor(model => item.CodigoOrigem__c)</td>
+                                            <td> @Html.DisplayFor(model => item.DataImplantacao__c)</td>
+                                            <td> @Html.DisplayFor(model => item.Controlado)</td>
+                                            <td> @Html.DisplayFor(model => item.CodGrupoMercadoria__c)</td>
+                                            <td> @Html.DisplayFor(model => item.CodCondicaoEstocagem__c)</td>
+
+
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+@Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+@Styles.Render("~/plugins/dataPickerStyles")
+@Styles.Render("~/plugins/slickStyles")
+@Styles.Render("~/plugins/slickThemeStyles")
+
+@Scripts.Render("~/plugins/iCheck")
+@Scripts.Render("~/plugins/validate")
+@Scripts.Render("~/plugins/dataPicker")
+@Scripts.Render("~/plugins/slick")
+
+<script>
+    function BuscarPayLoad(data) {
+        return $.ajax({
+            type: "POST",
+            url: 'TransactionPayLoad/',
+            data: { data },
+            success: function (retorno) {
+                window.location = '@Url.Action("Download", "Home")';
+            }
+        });
+    }
+
+    var wholesaler = $('#tLogTableId').DataTable({
+        responsive: {
+            details: {
+                type: 'column'
+            }
+        },
+        columnDefs: [{
+            className: 'control',
+            orderable: false,
+            targets: 0
+        }],
+        order: [1, 'asc']
+    });
+
+    function expandCollapseAll() {
+        wholesaler.rows('.parent').nodes().to$().find('td:first-child').trigger('click').length ||
+            wholesaler.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click')
+
+    }
+
+</script>
+@*<script src="~/Scripts/ExportarExcel/jquery-2.0.1.min.js"></script>*@
+<script src="~/Scripts/ExportarExcel/jquery.base64.js"></script>
+<script src="~/Scripts/ExportarExcel/jquery.btechco.excelexport.js"></script>

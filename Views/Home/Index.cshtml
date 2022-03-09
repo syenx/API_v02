@@ -1,0 +1,153 @@
+﻿
+<style>
+    /* Add a gray background color and some padding to the footer */
+    footer {
+        background-color: #f2f2f2;
+        padding: 25px;
+    }
+</style>
+
+<style>
+    #BloCkTela {
+        display: none;
+        background: #CCCCFF url(../../fonts/doidera.gif) center no-repeat;
+        background-color: black;
+        width: 100%;
+        height: 100%;
+        color: orange;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 999;
+        filter: alpha(opacity=50);
+        opacity: 0.5;
+        -moz-opacity: 0.5;
+        -webkit-opacity: 0.8;
+    }
+</style>
+
+
+<div id="BloCkTela">
+
+</div>
+
+<div class="container" style=" padding: 1% 1% 0 1%; background-color: aliceblue">
+    <div class="row">
+        <div class="card-container" style="position:center">
+            <div class="card-body">
+                <div class="col-sm-3" ID="linkPayLoad2">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">TRANSACTIONLOG</div>
+                    </div>
+                </div>
+                <div class="col-sm-3" ID="linkProduct2">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">PRODUTOS</div>
+                    </div>
+                </div>
+                <div class="col-sm-3" ID="linkPessoa2">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">CONTAS</div>
+
+                    </div>
+                </div>
+                <div class="col-sm-3" style="padding-left:15px" ID="linkFila">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">Fila</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style=" padding: 1% 1% 0 1%; background-color: aliceblue">
+    <div class="row">
+        <div class="card-container" style="">
+            <div class="card-body">
+                <div class="col-sm-3" ID="linkEnviarProduto">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+
+                            <table>
+                                <tr>
+                                    <td> <img class="img-responsive" style="height:20px; width:20px; margin:0 3% 0 0; padding:0 0 0 0" src="~/Content/play-icon.png" /> </td>
+                                    <td style=" padding: 0 0 0 10px; "> Enviar Produtos</td>
+                                </tr>
+                            </table>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-sm-3" ID="linkProduct2">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">PRODUTOS</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3" ID="linkPessoa2">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">CONTAS</div>
+
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+
+    $(document).ready(function () {
+
+        $("#linkLogout").css("display", "block");
+
+    });
+
+  
+
+    $("#linkEnviarProduto").click(function () {
+
+        $("#BloCkTela").css("display", "block");
+
+        return $.ajax({
+            type: "POST",
+            url: '/Home/EnviaProdutosAPI',
+            data: {},
+            success: function (retorno) {
+                window.location.replace("/Transactionlog/Index?tableid=Product2");
+                alert("Enviado com sucesso");
+                $("#BloCkTela").css("display", "none");
+            }
+        });
+    });
+
+
+
+
+    $("#linkPayLoad2").click(function () {
+        window.location.replace("/Transactionlog/Index");
+    });
+
+    $("#linkProduct2").click(function () {
+        window.location.replace("/Produtos/Index");
+    });
+
+
+    $("#linkPessoa2").click(function () {
+        window.location.replace("/Pessoa/Index");
+    });
+
+    $("#linkFila").click(function () {
+        window.location.replace("/Fila/Index");
+    });
+
+
+
+</script>
+

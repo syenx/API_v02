@@ -1,0 +1,194 @@
+﻿@model Ks.MonitorCPI.Models.ViewModelTransactionLog
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="~/Scripts/jquery.table2excel.js"></script>
+
+<link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
+@Styles.Render("~/Content/DataTables")
+@Scripts.Render("~/plugins/mask")
+
+
+
+<div class="modal-content">
+    <div class="modal-body">
+
+        @if (Model != null && Model.ROOT != null)
+        {
+
+            if (Model.ROOT.Select_response.Row.Count > 0)
+            {
+                <a class="btn btn-default btn-lg btn-block" style="padding:0 0 10px 0" href="@Url.Action("ExportarExcel","Transactionlog")">Download Excel</a>
+                <a class="btn btn-default btn-lg btn-block" style="padding:0 0 10px 0" href="@Url.Action("ExportarXml", "Transactionlog")">Download Xml</a>
+            }
+
+            int contador = 0;
+            <table id="tLogTableId" class="display nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="all">BATCH_ID</th>
+                        <th class="all">TABLE_ID|</th>
+                        <th class="all">PROC_DATE_ENVIO|</th>
+                        <th class="all">PROC_DATE_RETORNO|</th>
+                        <th class="all">STATUS</th>
+                        <th class="none"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model.ROOT.Select_response.Row)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>
+                                <span onclick="return BuscarPayLoad( '@item.BATCH_ID')">
+                                    <a>@Html.DisplayFor(model => item.BATCH_ID)</a>
+                                </span>
+                            </td>
+                            <td> @Html.DisplayFor(model => item.TABLE_ID)</td>
+                            <td> @Html.DisplayFor(model => item.PROC_DATE_ENVIO)</td>
+                            <td> @Html.DisplayFor(model => item.PROC_DATE_RETORNO)</td>
+                            <td> @Html.DisplayFor(model => item.STATUS)</td>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+
+                                            @{
+
+                                                string msgErro = string.Empty;
+                                                string msgSucesso = string.Empty;
+                                                var msn = item.MESSAGE.Split('@');
+
+                                                foreach (var itemMsg in msn)
+                                                {
+
+                                                    if (itemMsg.Contains("false"))
+                                                    {
+                                                        msgErro += itemMsg + "\n";
+                                                    }
+                                                    else if(itemMsg.Contains("true"))
+                                                    {
+                                                        msgSucesso += itemMsg + "\n";
+                                                    }
+                                                    else
+                                                    {
+                                                        msgErro += itemMsg + "\n";
+                                                    }
+                                                }
+
+                                            }
+
+                                            <td>
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <a class="collapsed card-link" data-toggle="collapse" href="#collapse_@contador++">
+                                                            Mensagem Erro
+                                                        </a>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        @{
+
+
+                                                            @Html.TextAreaFor(model => msgErro, new { @readonly = true, @class = "form-control", width = "300", cols = "200", rows = "10", })
+                                                        }
+
+                                                    </div>
+
+                                                </div>
+
+
+                                            </td>
+                                            <td>
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <a class="collapsed card-link" data-toggle="collapse" href="#collapse_@contador++">
+                                                            Mensagem Sucesso
+                                                        </a>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        @{
+
+
+                                                            @Html.TextAreaFor(model => msgSucesso, new { @readonly = true, @class = "form-control", width = "300", cols = "200", rows = "10", })
+                                                        }
+
+                                                    </div>
+
+                                                </div>
+
+
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+@Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+@Styles.Render("~/plugins/dataPickerStyles")
+@Styles.Render("~/plugins/slickStyles")
+@Styles.Render("~/plugins/slickThemeStyles")
+
+@Scripts.Render("~/plugins/iCheck")
+@Scripts.Render("~/plugins/validate")
+@Scripts.Render("~/plugins/dataPicker")
+@Scripts.Render("~/plugins/slick")
+
+<script>
+
+    $(document).ready(function () {
+        var valorTableIdParameter = window.location.search.split('=')[1].toString();
+
+        $("#tableid").val(valorTableIdParameter);
+    });
+
+    function BuscarPayLoad(data) {
+        return $.ajax({
+            type: "POST",
+            url: 'TransactionPayLoad/',
+            data: { data },
+            success: function (retorno) {
+                window.location = '@Url.Action("Download", "Transactionlog")';
+            }
+        });
+    }
+
+    var wholesaler = $('#tLogTableId').DataTable({
+        responsive: {
+            details: {
+                type: 'column'
+            }
+        },
+        columnDefs: [{
+            className: 'control',
+            orderable: false,
+            targets: 0
+        }],
+        order: [1, 'asc']
+    });
+
+    function expandCollapseAll() {
+        wholesaler.rows('.parent').nodes().to$().find('td:first-child').trigger('click').length ||
+            wholesaler.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click')
+
+    }
+
+</script>
+@*<script src="~/Scripts/ExportarExcel/jquery-2.0.1.min.js"></script>*@
+<script src="~/Scripts/ExportarExcel/jquery.base64.js"></script>
+<script src="~/Scripts/ExportarExcel/jquery.btechco.excelexport.js"></script>

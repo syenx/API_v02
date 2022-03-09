@@ -1,0 +1,228 @@
+﻿@model Ks.MonitorCPI.Models.ViewModelFila
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<style>
+    #nvc1 {
+        width:300%
+    }
+
+</style>
+
+<div class="container">
+    <h3></h3>
+    <ul class="nav nav-tabs">
+        <li id="liPedido" class="active"><a href="#">Pedidos</a></li>
+        <li id="liContas"><a>Contas</a></li>
+        <li id="liMedico"><a>Médicos</a></li>
+    </ul>
+    <br>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        INSERIR NA FILA
+    </button>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">INSERIR NA FILA</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @{
+                        string[] listaTabelaId = { "PEDIDO", "MEDICO", "CLIENTE" };
+                    }
+                    @Html.DropDownListFor(model => Model.tabelaId, new SelectList(listaTabelaId).OrderBy(x => x.Text), new { @class = "form-control", width = "300", cols = "200" })
+                    <textarea type="text" name="textAreaListaItens" value="" id="textAreaListaItens" style="width:100%; height:50%"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="return InserirNaFilafunction()">Inserir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="dvCliente" style="margin:0 0 0 0; padding: 0 0 0 0; height:auto; width:100%">
+        <form action="@Url.Action("ConsultarFilaCliente")" method="post">
+            <div class="modal-content" id="divAutenticador" style="display:block">
+                <div class="modal-header">
+                    <h1>Monitor CPI Fila - Contas</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+
+                        <div class="col-md-4">
+
+                            <table>
+                                <tr>
+                                    <td style="padding:0 10px 10px 0">
+                                        <h5>Cliente Id</h5>
+                                        @Html.TextBoxFor(model => model.nvc1, new { @class = "form-control datepicker", @autocomplete = "off",  cols = "200", row="1" })
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </div>
+
+
+                        <div class="row-no-gutters">
+                            <p style=" margin:0 10px 0 10px ">
+                                <button type="submit" id="consultarRetorno" class="btn btn-danger btn-lg btn-block">Consultar</button>
+                            </p>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+        @Html.Partial(@"~/Views/Fila/ConsultarFilaCliente.cshtml", Model)
+    </div>
+
+    <div id="dvMedico" style="margin:0 0 0 0; padding: 0 0 0 0; height:auto; width:100%">
+        <form action="@Url.Action("ConsultarFilaMedico")" method="post">
+            <div class="modal-content" id="divAutenticador" style="display:block">
+                <div class="modal-header">
+                    <h1>Monitor CPI Fila - Medicos</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table>
+                                <tr>
+                                    <td style="padding:0 10px 10px 0">
+                                        <h5>Medico Id</h5>
+                                        @Html.TextBoxFor(model => model.nvc1, new { @class = "form-control datepicker", @autocomplete = "off" })
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="row-no-gutters">
+                            <p style=" margin:0 10px 0 10px ">
+                                <button type="submit" id="consultarRetorno" class="btn btn-danger btn-lg btn-block">Consultar</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        @Html.Partial(@"~/Views/Fila/ConsultarFilaMedico.cshtml", Model)
+    </div>
+
+    <div id="dvPedido" style="margin:0 0 0 0; padding: 0 0 0 0; height:auto; width:100%">
+        <form action="@Url.Action("ConsultarFilaPedido")" method="post">
+            <div class="modal-content" id="divAutenticador" style="display:block">
+                <div class="modal-header">
+                    <h1>Monitor CPI Fila - Pedidos</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table>
+                                <tr>
+                                    <td style="padding:0 10px 10px 0">
+                                        <h5>Pedido Id</h5>
+                                        @Html.TextBoxFor(model => model.nvc1, new { @class = "form-control", @autocomplete = "off" })
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="row-no-gutters">
+                            <p style=" margin:0 10px 0 10px ">
+                                <button type="submit" id="consultarRetorno" class="btn btn-danger btn-lg btn-block">Consultar</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        @Html.Partial(@"~/Views/Fila/ConsultarFilaPedido.cshtml", Model)
+    </div>
+</div>
+
+
+
+<script>
+
+
+    function InserirNaFilafunction() {
+
+        var fila = {
+            "nvc1": $("#textAreaListaItens").val(),
+            "tabelaId": $("#tabelaId").val()
+        }
+
+        return $.ajax({
+            type: "POST",
+            url: 'IncluirFila/',
+            data: { fila },
+            success: function (retorno) {
+                alert("INSERIDO COM SUCESSO!");
+                  window.location = '@Url.Action("Index", "Fila")';
+            }
+        });
+
+
+        $("#exampleModal").css("display", "none")
+    };
+
+
+    $(document).ready(function () {
+        $("#dvMedico").css("display", "none");
+        $("#dvPedido").css("display", "Block");
+        $("#dvCliente").css("display", "none");
+
+    });
+
+    $("#liPedido").click(function () {
+        $("#liContas").removeClass("active");
+        $("#liMedico").removeClass("active");
+        $("#liPedido").addClass("active");
+
+
+        $("#dvMedico").css("display", "none");
+        $("#dvPedido").css("display", "Block");
+        $("#dvCliente").css("display", "none");
+    });
+
+    $("#liContas").click(function () {
+        $("#liPedido").removeClass("active");
+        $("#liMedico").removeClass("active");
+        $("#liContas").addClass("active");
+
+
+
+        $("#dvMedico").css("display", "none");
+        $("#dvPedido").css("display", "none");
+        $("#dvCliente").css("display", "Block");
+    });
+
+    $("#liMedico").click(function () {
+
+        $("#liPedido").removeClass("active");
+        $("#liContas").removeClass("active");
+        $("#liMedico").addClass("active");
+
+
+        $("#dvMedico").css("display", "Block");
+        $("#dvPedido").css("display", "none");
+        $("#dvCliente").css("display", "none");
+    });
+
+
+</script>

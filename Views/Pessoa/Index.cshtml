@@ -1,0 +1,75 @@
+﻿@model Ks.MonitorCPI.Models.ViewModelPessoa
+
+@{
+
+
+    ViewBag.Title = "Home Page";
+}
+
+<style>
+    #tableid, #datefrom, #status, #hourFrom {
+        width: 200px
+    }
+</style>
+@Scripts.Render("~/plugins/mask")
+<script>
+    $(document).ready(function () {
+        $("#hourFrom").mask("00:00:00", { "placeholder": "hh:mm:ss" });
+    });
+</script>
+
+<div style="margin:0 0 0 0; padding: 0 0 0 0; height:auto; width:100%">
+    <form action="@Url.Action("ConsultarPessoa")" method="post">
+        <div class="modal-content" id="divAutenticador" style="display:block">
+            <div class="modal-header">
+
+
+                <h1>Monitor CPI Conta</h1>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <table>
+                            <tr>
+                                <td style="padding:0 10px 10px 0">
+                                    <h5>CNPJ</h5>
+                                    @Html.TextBoxFor(model => model.cnpj, new { @class = "form-control datepicker", @autocomplete = "off" })
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+
+
+                    <div class="row-no-gutters">
+                        <p style=" margin:0 10px 0 10px ">
+                            <button type="submit" id="consultarRetorno" class="btn btn-danger btn-lg btn-block">Consultar</button>
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+            @Html.Partial(@"~/Views/Pessoa/ConsultarPessoa.cshtml", Model)
+        </div>
+
+    </form>
+</div>
+<script>
+
+
+    $(document).ready(function () {
+        $('#datefrom').mask("dd/mm/aaaa");
+    });
+
+
+    $('#datefrom').datepicker({
+        uiLibrary: 'bootstrap',
+        format: "dd/mm/yyyy",
+        laguage: 'PT-BR'
+    });
+</script>
